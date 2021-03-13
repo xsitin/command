@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace oop
+﻿namespace oop
 {
     internal class Program
     {
