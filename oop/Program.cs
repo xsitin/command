@@ -1,13 +1,19 @@
-﻿namespace oop
+﻿using oop.Executors;
+
+namespace oop
 {
     internal class Program
     {
         public static void Main(string[] args)
         {
-            var fw = new FileWorker(args[0], args[1]=="r");
-            fw.Add(new SHAExecutor());
-            fw.Run();
-            fw.Dump(new ConsoleResulter());
+            var fac = new CommandFactory("/home/xsitin/Desktop/testData",
+                true);
+            var queue = CommandQueue.GetInstance();
+            queue.Push(fac
+                .CreateFileCommand(
+                    new Md5FilesHash(),
+                    new ConsoleResulter()));
+            queue.Run();
         }
     }
 }

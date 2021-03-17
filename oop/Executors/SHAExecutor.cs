@@ -1,22 +1,22 @@
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using NetBox.Extensions;
 
-namespace oop
+namespace oop.Executors
 {
-    public class SHAExecutor : IFileExecutable
+    public class SHAExecutor : IFileExecutable<IEnumerable<byte>>
     {
         private readonly SHA512CryptoServiceProvider _sha = new();
         private readonly byte[] buffer = new byte[4096];
 
-        public IEnumerable<string> Result
+        public IEnumerable<byte> Result
         {
             get
             {
                 _sha.TransformFinalBlock(buffer, 0, 0);
-                return _sha.Hash.ToHexString().AsEnumerable().ToList();
+                return (_sha.Hash ?? throw new EvaluateException("invalid hash value")).ToArray();
             }
         }
 
